@@ -1,0 +1,24 @@
+{
+  "Color-Light": {
+    "bg_main": {
+      "value": "#43310e",
+      "type": "color"
+    },
+    "text": {
+      "title": {
+        "value": "#fff",
+        "type": "color"
+      },
+      "subtitle": {
+        "value": "#d1d1d1",
+        "type": "color"
+      }
+    }
+  },
+  "bg": {
+    "main": {
+      "value": "#fff",
+      "type": "color"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "Color-Dark": {
+    "bg_main": {
+      "value": "#fff9cc",
+      "type": "color"
+    },
+    "text": {
+      "title": {
+        "value": "#000",
+        "type": "color"
+      },
+      "subtitle": {
+        "value": "#646464",
+        "type": "color"
+      }
+    }
+  },
+  "bg": {
+    "main": {
+      "value": "#000",
+      "type": "color"
+    }
+  }
+}
