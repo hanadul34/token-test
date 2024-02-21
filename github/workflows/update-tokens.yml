@@ -3,7 +3,7 @@ name: Update Tokens
 on:
   pull_request:
     paths:
-      - "**/*.json"
+      - "/tokens/token.json"
 
 jobs:
   update-tokens:
@@ -36,6 +36,6 @@ jobs:
 
       - name: Commit Changes
         run: |
-          git add ./src/build
+          git add ./components/themes
           git commit -m "Update tokens"
           git push
