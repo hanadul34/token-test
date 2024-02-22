@@ -31,5 +31,5 @@ jobs:
           git config user.name hana
           git config user.email hanadul34@weversecompany.com
           git add .
-          git commit -m "Update tokens"
-          git push
+          git commit -m "Update tokens!"
+          git push 
