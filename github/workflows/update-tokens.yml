@@ -4,8 +4,6 @@ on:
   workflow_dispatch:
     pull_request:
       types: opened
-      paths: "tokens/token.json"
-      branches: "zeroheight-tokens-*"
 
 jobs:
   update-tokens:
