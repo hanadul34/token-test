@@ -5,10 +5,10 @@ on:
     types:
       - opened
     paths:
-      - "/tokens/token.json"
+      - "tokens/token.json"
 
 jobs:
-  run if: startsWith(github.event.pull_request.head.ref, 'zeroheight-tokens-')
+  run if: startsWith(github.event.pull_request, 'zeroheight-tokens-')
   update-tokens:
     runs-on: ubuntu-latest
     steps:
