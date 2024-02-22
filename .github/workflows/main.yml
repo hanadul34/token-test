@@ -1,0 +1,28 @@
+name: Update Tokens
+
+on:
+  pull_request:
+    types: opened
+
+jobs:
+  update-tokens:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git Version Beta
+        id: version
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build App
+        shell: bash
+        run: yarn install
+
+      - name: Run Token Update Script
+        run: yarn update-tokens
+
+      - name: Commit Changes
+        run: |
+          git add .
+          git commit -m "Update tokens"
+          git push
