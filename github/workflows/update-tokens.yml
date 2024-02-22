@@ -8,10 +8,11 @@ on:
       - "tokens/token.json"
 
 jobs:
-  run if: startsWith(github.head.ref, 'zeroheight-tokens-')
+  run if: startsWith(github.head_ref, 'zeroheight-tokens-')
   update-tokens:
     runs-on: ubuntu-latest
     steps:
+      - run: echo "The head of this PR starts with 'releases/'"
       - name: Git Version Beta
         id: version
 
