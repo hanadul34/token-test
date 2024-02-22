@@ -3,6 +3,8 @@ name: Update Tokens
 on:
   pull_request:
     types: opened
+    paths: "./tokens/token.json"
+    branches: "zeroheight-tokens-*"
 
 jobs:
   update-tokens:
