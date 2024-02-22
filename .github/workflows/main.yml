@@ -4,8 +4,6 @@ on:
     types: [opened]
     paths:
       - "/tokens/token.json"
-    branches:
-      - "zeroheight-tokens-*"
 
 jobs:
   update-tokens:
@@ -13,3 +11,31 @@ jobs:
     steps:
       - run: echo 'test'
     
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        id: version
+        if: github.event_name == 'pull_request'
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "yarn"
+    
+      - name: Configure Yarn
+        shell: bash
+        run: |
+          yarn set version 4.0.2
+
+      - name: Build App
+        shell: bash
+        run: yarn install
+
+      - name: Run Token Update Script
+        run: yarn update-tokens
+
+      - name: Commit Changes
+        run: |
+          git add .
+          git commit -m "Update tokens"
+          git push
