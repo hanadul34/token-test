@@ -4,18 +4,8 @@ const { fileHeader } = require("style-dictionary/lib/common/formatHelpers");
 const StyleDictionaryPackage = require("style-dictionary");
 const JsonToTS = require("json-to-ts");
 
-StyleDictionary.registerTransform({
-  name: "attribute/cti",
-  type: "attribute",
-  transformer: (prop) => {
-    const originalName = prop.original.name || "";
-    return originalName.toLowerCase().replace(/^\$/, "");
-  },
-});
-
 StyleDictionaryPackage.registerFormat({
   name: "typescript/accurate-module-declarations",
-
   formatter: function ({ dictionary }) {
     const testToken = formatHelpers.minifyDictionary(dictionary.tokens);
     const interfaceDefinitions = JsonToTS(testToken).map(
@@ -44,23 +34,24 @@ StyleDictionaryPackage.registerFormat({
 
 StyleDictionary.registerTransformGroup({
   name: "ts",
-  transforms: ["attribute/cti", "size/remToPx", "color/hex", "name/ti/camel"],
+  transforms: ["name/cti/camel", "size/remToPx", "color/hex"],
 });
 
 module.exports = {
   source: ["./tokens/token.json"],
-  transformer: (prop, options) => {
-    return prop.name.replace(/^\$/, "");
-  },
-  format: {
-    myCustomFormat: ({ dictionary }) => {
-      return JSON.stringify(
-        formatHelpers.minifyDictionary(dictionary.tokens),
-        null,
-        2
-      );
+  parsers: [
+    {
+      pattern: /\.json$|\.tokens\.json$|\.tokens$/,
+      parse: ({ contents }) => {
+        // replace $value with value so that style dictionary recognizes it
+        const preparedContent = (contents || "{}")
+          .replace(/"\$?value"\s*:/g, '"value":')
+          .replace(/"\$?description"\s*:/g, '"comment":')
+          .replace(/"\$?type"\s*:/g, '"type":');
+        return JSON.parse(preparedContent);
+      },
     },
-  },
+  ],
 
   platforms: {
     ts: {
@@ -69,6 +60,8 @@ module.exports = {
       files: [
         {
           format: "javascript/accurate-module-declarations",
+          // https://github.com/amzn/style-dictionary/issues/257
+          // format: "javascript/module-flat",
           destination: "tokens.js",
         },
         {

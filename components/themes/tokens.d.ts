@@ -7,71 +7,43 @@ export interface RootObject {
   animation: Animation;
 }
 export interface Animation {
-  '$description': string;
+  comment: string;
   basics: Basics;
 }
 export interface Basics {
-  small: Small;
-  'Duration-100': Duration100;
-}
-export interface Duration100 {
-  '$value': string;
-  '$description': string;
-  '$type': string;
-}
-export interface Small {
-  '$type': string;
-  '$description': string;
-  '$value': number[];
+  small: number[];
+  'Duration-100': string;
 }
 export interface Typography {
-  'primary font': Primary30;
-  'font-weight-default': Fontweightdefault;
-}
-export interface Fontweightdefault {
-  '$value': number;
-  '$type': string;
+  'primary font': string;
+  'font-weight-default': number;
 }
 export interface Sizes {
-  '$type': string;
-  'base spacing': BaseSpacing;
+  type: string;
+  'base spacing': string;
   digital: Digital;
 }
 export interface Digital {
-  web: BaseSpacing;
+  web: string;
   devices: Devices;
 }
 export interface Devices {
-  tablet: BaseSpacing;
-  mobile: Mobile;
-}
-export interface Mobile {
-  '$value': BaseSpacing;
-}
-export interface BaseSpacing {
-  '$value': string;
+  tablet: string;
+  mobile: string;
 }
 export interface Base {
-  '$description': string;
-  '$type': string;
+  comment: string;
+  type: string;
   palette: Palette;
   backgrounds: Backgrounds;
 }
 export interface Backgrounds {
-  'light-primary': Lightprimary;
-  'dark-primary': Lightprimary;
-}
-export interface Lightprimary {
-  '$type': string;
-  '$value': Primary30;
+  'light-primary': string;
+  'dark-primary': string;
 }
 export interface Palette {
-  primary30: Primary30;
-  primary50: Primary30;
-  primary70: Primary30;
-  primary90: Primary30;
-}
-export interface Primary30 {
-  '$type': string;
-  '$value': string;
+  primary30: string;
+  primary50: string;
+  primary70: string;
+  primary90: string;
 }

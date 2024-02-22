@@ -5,40 +5,39 @@ on:
     types:
       - opened
     paths:
-      - "tokens/token.json"
+      - "/tokens/token.json"
 
 jobs:
-  triage:
-    if: ${{ startsWith(github.event.pull_request.head.ref, 'zeroheight-tokens-') }}
-    update-tokens:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Git Version Beta
-          id: version
+  run if: startsWith(github.event.pull_request.head.ref, 'zeroheight-tokens-')
+  update-tokens:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git Version Beta
+        id: version
 
-        - name: Checkout repository
-          uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-        - name: Install Node.js
-          uses: actions/setup-node@v3
-          with:
-            node-version: 18
-            cache: "yarn"
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "yarn"
 
-        - name: Configure Yarn
-          shell: bash
-          run: |
-            yarn set version 4.0.2
+      - name: Configure Yarn
+        shell: bash
+        run: |
+          yarn set version 4.0.2
 
-        - name: Build App
-          shell: bash
-          run: yarn install
+      - name: Build App
+        shell: bash
+        run: yarn install
 
-        - name: Run Token Update Script
-          run: yarn update-tokens
+      - name: Run Token Update Script
+        run: yarn update-tokens
 
-        - name: Commit Changes
-          run: |
-            git add ./components/themes
-            git commit -m "Update tokens"
-            git push
+      - name: Commit Changes
+        run: |
+          git add ./components/themes
+          git commit -m "Update tokens"
+          git push

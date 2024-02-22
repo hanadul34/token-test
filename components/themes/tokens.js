@@ -1,96 +1,48 @@
 /**
  * Do not edit directly
- * Generated on Thu, 22 Feb 2024 00:02:40 GMT
+ * Generated on Thu, 22 Feb 2024 02:49:39 GMT
  */
 
 module.exports = {
   "base": {
-    "$description": "All the base color tokens",
-    "$type": "color",
+    "comment": "All the base color tokens",
+    "type": "color",
     "palette": {
-      "primary30": {
-        "$type": "color",
-        "$value": "#4F378B"
-      },
-      "primary50": {
-        "$type": "color",
-        "$value": "#826BBB"
-      },
-      "primary70": {
-        "$type": "color",
-        "$value": "#B6A1E9"
-      },
-      "primary90": {
-        "$type": "color",
-        "$value": "#EADDFF"
-      }
+      "primary30": "#4F378B",
+      "primary50": "#826BBB",
+      "primary70": "#B6A1E9",
+      "primary90": "#EADDFF"
     },
     "backgrounds": {
-      "light-primary": {
-        "$type": "color",
-        "$value": {
-          "$type": "color",
-          "$value": "#EADDFF"
-        }
-      },
-      "dark-primary": {
-        "$type": "color",
-        "$value": {
-          "$type": "color",
-          "$value": "#4F378B"
-        }
-      }
+      "light-primary": "#EADDFF",
+      "dark-primary": "#4F378B"
     }
   },
   "sizes": {
-    "$type": "dimension",
-    "base spacing": {
-      "$value": "0.25rem"
-    },
+    "type": "dimension",
+    "base spacing": "0.25rem",
     "digital": {
-      "web": {
-        "$value": "4rem"
-      },
+      "web": "4rem",
       "devices": {
-        "tablet": {
-          "$value": "80px"
-        },
-        "mobile": {
-          "$value": {
-            "$value": "0.25rem"
-          }
-        }
+        "tablet": "80px",
+        "mobile": "0.25rem"
       }
     }
   },
   "typography": {
-    "primary font": {
-      "$value": "Comic Sans MS",
-      "$type": "fontFamily"
-    },
-    "font-weight-default": {
-      "$value": 350,
-      "$type": "fontWeight"
-    }
+    "primary font": "Comic Sans MS",
+    "font-weight-default": 350
   },
   "animation": {
-    "$description": "Random tokens",
+    "comment": "Random tokens",
     "basics": {
-      "small": {
-        "$type": "cubicBezier",
-        "$description": "Basic animation coordinates",
-        "$value": [
-          0,
-          0,
-          0.5,
-          1
-        ]
-      },
-      "Duration-100": {
-        "$value": "100ms",
-        "$description": "Average durations of an animation",
-        "$type": "duration"
-      }
+      "small": [
+        0,
+        0,
+        0.5,
+        1
+      ],
+      "Duration-100": "100ms"
     }
   }
 };

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { BaseSpacing, Basics } from "../components/themes/tokens";
+import { Palette } from "../components/themes/tokens";
 
-function App(a: BaseSpacing) {
+function App(a: Pick<Palette, "primary30">) {
   const [theme, setTheme] = useState("dark");
-  console.log("a.$value => ", a.$value);
+  console.log("a.$value => ", a.primary30);
 
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
