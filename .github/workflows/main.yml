@@ -8,7 +8,7 @@ on:
       - "zeroheight-tokens-*"
 
 jobs:
-  build:
+  update-tokens:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
