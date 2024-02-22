@@ -4,10 +4,10 @@ on:
   pull_request:
     types: opened
     paths: "./tokens/token.json"
-    branches: "zeroheight-tokens-*"
 
 jobs:
-  update-tokens:
+   run_if:
+    if:  startsWith(github.head_ref, 'zeroheight-tokens-*')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
