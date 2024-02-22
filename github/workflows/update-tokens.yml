@@ -1,8 +1,6 @@
 name: Update Tokens
 
-on:
-  pull_request:
-    types: opened
+on: pull_request
 
 jobs:
   update-tokens:
