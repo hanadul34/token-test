@@ -1,11 +1,10 @@
 name: Update Tokens
 
 on:
-  workflow_dispatch:
     pull_request:
-      types: opened
-      paths: "tokens/token.json"
-      branches: "zeroheight-tokens-*"
+      types: "opened"
+      paths: -"tokens/token.json"
+      branches: -"zeroheight-tokens-*"
 
 jobs:
   update-tokens:
@@ -13,6 +12,7 @@ jobs:
     steps:
       - name: Git Version Beta
         id: version
+        if: github.event_name == 'pull_request'
 
       - name: Checkout repository
         uses: actions/checkout@v3
