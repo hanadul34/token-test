@@ -1,10 +1,11 @@
 name: Update Tokens
 
 on:
-  pull_request:
-    types: [opened]
-    paths: "tokens/token.json"
-    branches: "zeroheight-tokens-*"
+  workflow_dispatch:
+    pull_request:
+      types: opened
+      paths: "tokens/token.json"
+      branches: "zeroheight-tokens-*"
 
 jobs:
   update-tokens:
@@ -12,7 +13,6 @@ jobs:
     steps:
       - name: Git Version Beta
         id: version
-        if: startsWith(github.head.ref, 'zeroheight-tokens-')
 
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -37,6 +37,6 @@ jobs:
 
       - name: Commit Changes
         run: |
-          git add ./components/themes
+          git add .
           git commit -m "Update tokens"
           git push
