@@ -14,6 +14,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         id: version
+        if: github.event_name == 'pull_request'
 
       - name: Install Node.js
         uses: actions/setup-node@v3
