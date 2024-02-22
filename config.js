@@ -4,6 +4,15 @@ const { fileHeader } = require("style-dictionary/lib/common/formatHelpers");
 const StyleDictionaryPackage = require("style-dictionary");
 const JsonToTS = require("json-to-ts");
 
+StyleDictionary.registerTransform({
+  name: "attribute/cti",
+  type: "attribute",
+  transformer: (prop) => {
+    const originalName = prop.original.name || "";
+    return originalName.toLowerCase().replace(/^\$/, "");
+  },
+});
+
 StyleDictionaryPackage.registerFormat({
   name: "typescript/accurate-module-declarations",
 
@@ -35,11 +44,14 @@ StyleDictionaryPackage.registerFormat({
 
 StyleDictionary.registerTransformGroup({
   name: "ts",
-  transforms: ["attribute/cti", "size/remToPx", "color/hex", "name/cti/camel"],
+  transforms: ["attribute/cti", "size/remToPx", "color/hex", "name/ti/camel"],
 });
 
 module.exports = {
   source: ["./tokens/token.json"],
+  transformer: (prop, options) => {
+    return prop.name.replace(/^\$/, "");
+  },
   format: {
     myCustomFormat: ({ dictionary }) => {
       return JSON.stringify(

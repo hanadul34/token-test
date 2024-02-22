@@ -1,58 +1,96 @@
 /**
  * Do not edit directly
- * Generated on Wed, 21 Feb 2024 08:10:54 GMT
+ * Generated on Thu, 22 Feb 2024 00:02:40 GMT
  */
 
 module.exports = {
-  "test": {
+  "base": {
+    "$description": "All the base color tokens",
+    "$type": "color",
+    "palette": {
+      "primary30": {
+        "$type": "color",
+        "$value": "#4F378B"
+      },
+      "primary50": {
+        "$type": "color",
+        "$value": "#826BBB"
+      },
+      "primary70": {
+        "$type": "color",
+        "$value": "#B6A1E9"
+      },
+      "primary90": {
+        "$type": "color",
+        "$value": "#EADDFF"
+      }
+    },
     "backgrounds": {
-      "primary": "#0026FF"
+      "light-primary": {
+        "$type": "color",
+        "$value": {
+          "$type": "color",
+          "$value": "#EADDFF"
+        }
+      },
+      "dark-primary": {
+        "$type": "color",
+        "$value": {
+          "$type": "color",
+          "$value": "#4F378B"
+        }
+      }
     }
   },
-  "animation": {
-    "description": "Random tokens",
-    "basics": {
-      "small": [
-        0,
-        0,
-        0.5,
-        1
-      ],
-      "Duration-100": "100ms"
+  "sizes": {
+    "$type": "dimension",
+    "base spacing": {
+      "$value": "0.25rem"
+    },
+    "digital": {
+      "web": {
+        "$value": "4rem"
+      },
+      "devices": {
+        "tablet": {
+          "$value": "80px"
+        },
+        "mobile": {
+          "$value": {
+            "$value": "0.25rem"
+          }
+        }
+      }
     }
   },
   "typography": {
-    "primary-font": "Comic Sans MS",
-    "font-weight-default": 350
+    "primary font": {
+      "$value": "Comic Sans MS",
+      "$type": "fontFamily"
+    },
+    "font-weight-default": {
+      "$value": 350,
+      "$type": "fontWeight"
+    }
   },
-  "sizes": {
-    "type": "dimension",
-    "digital": {
-      "devices": {
-        "tablet": "80px",
-        "mobile": "0.25rem"
+  "animation": {
+    "$description": "Random tokens",
+    "basics": {
+      "small": {
+        "$type": "cubicBezier",
+        "$description": "Basic animation coordinates",
+        "$value": [
+          0,
+          0,
+          0.5,
+          1
+        ]
       },
-      "web": "4rem"
-    },
-    "base-spacing": "0.25rem"
-  },
-  "base": {
-    "type": "color",
-    "description": "All the base color tokens",
-    "palette": {
-      "primary150": "#E900FF",
-      "primary30": "#4F378B",
-      "primary50": "#826BBB",
-      "primary70": "#B6A1E9",
-      "primary90": "#EADDFF",
-      "primary120": "#2000FF",
-      "primary140": "#00FF49"
-    },
-    "backgrounds": {
-      "green-primary": "#00FF49",
-      "red-primary": "#2000FF",
-      "light-primary": "#EADDFF",
-      "dark-primary": "#4F378B"
+      "Duration-100": {
+        "$value": "100ms",
+        "$description": "Average durations of an animation",
+        "$type": "duration"
+      }
     }
   }
 };

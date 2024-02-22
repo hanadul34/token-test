@@ -1,61 +1,77 @@
 declare const root: RootObject
 export default root
 export interface RootObject {
-  test: Test;
-  animation: Animation;
-  typography: Typography;
-  sizes: Sizes;
   base: Base;
-}
-export interface Base {
-  type: string;
-  description: string;
-  palette: Palette;
-  backgrounds: Backgrounds2;
-}
-export interface Backgrounds2 {
-  'green-primary': string;
-  'red-primary': string;
-  'light-primary': string;
-  'dark-primary': string;
-}
-export interface Palette {
-  primary150: string;
-  primary30: string;
-  primary50: string;
-  primary70: string;
-  primary90: string;
-  primary120: string;
-  primary140: string;
-}
-export interface Sizes {
-  type: string;
-  digital: Digital;
-  'base-spacing': string;
-}
-export interface Digital {
-  devices: Devices;
-  web: string;
-}
-export interface Devices {
-  tablet: string;
-  mobile: string;
-}
-export interface Typography {
-  'primary-font': string;
-  'font-weight-default': number;
+  sizes: Sizes;
+  typography: Typography;
+  animation: Animation;
 }
 export interface Animation {
-  description: string;
+  '$description': string;
   basics: Basics;
 }
 export interface Basics {
-  small: number[];
-  'Duration-100': string;
+  small: Small;
+  'Duration-100': Duration100;
 }
-export interface Test {
+export interface Duration100 {
+  '$value': string;
+  '$description': string;
+  '$type': string;
+}
+export interface Small {
+  '$type': string;
+  '$description': string;
+  '$value': number[];
+}
+export interface Typography {
+  'primary font': Primary30;
+  'font-weight-default': Fontweightdefault;
+}
+export interface Fontweightdefault {
+  '$value': number;
+  '$type': string;
+}
+export interface Sizes {
+  '$type': string;
+  'base spacing': BaseSpacing;
+  digital: Digital;
+}
+export interface Digital {
+  web: BaseSpacing;
+  devices: Devices;
+}
+export interface Devices {
+  tablet: BaseSpacing;
+  mobile: Mobile;
+}
+export interface Mobile {
+  '$value': BaseSpacing;
+}
+export interface BaseSpacing {
+  '$value': string;
+}
+export interface Base {
+  '$description': string;
+  '$type': string;
+  palette: Palette;
   backgrounds: Backgrounds;
 }
 export interface Backgrounds {
-  primary: string;
+  'light-primary': Lightprimary;
+  'dark-primary': Lightprimary;
+}
+export interface Lightprimary {
+  '$type': string;
+  '$value': Primary30;
+}
+export interface Palette {
+  primary30: Primary30;
+  primary50: Primary30;
+  primary70: Primary30;
+  primary90: Primary30;
+}
+export interface Primary30 {
+  '$type': string;
+  '$value': string;
 }
