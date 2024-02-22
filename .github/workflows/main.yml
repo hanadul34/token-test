@@ -29,7 +29,6 @@ jobs:
 
       - name: Commit Changes
         run: |
-          git checkout ${{ github.event.pull_request.head.ref }}
           git config --global user.email "hanadul34@weversecompany.com"
           git config --global user.name "hana"
           git add .
