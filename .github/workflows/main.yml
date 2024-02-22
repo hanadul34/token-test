@@ -32,4 +32,4 @@ jobs:
           git checkout ${{ github.event.pull_request.head.ref }}
           git add .
           git commit -m "Update tokens!"
-          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+          git push
