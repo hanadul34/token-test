@@ -20,6 +20,8 @@ jobs:
 
       - name: Commit Changes
         run: |
+          git config --global user.email "hanadul34@weversecompany.com"
+          git config --global user.name "hanaIm"
           git add .
           git commit -m "Update tokens"
           git push
