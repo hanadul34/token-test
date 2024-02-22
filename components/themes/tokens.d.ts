@@ -1,22 +1,14 @@
 declare const root: RootObject
 export default root
 export interface RootObject {
+  animation: Animation;
   base: Base;
   sizes: Sizes;
   typography: Typography;
-  animation: Animation;
-}
-export interface Animation {
-  comment: string;
-  basics: Basics;
-}
-export interface Basics {
-  small: number[];
-  'Duration-100': string;
 }
 export interface Typography {
-  'primary font': string;
   'font-weight-default': number;
+  'primary font': string;
 }
 export interface Sizes {
   type: string;
@@ -24,26 +16,34 @@ export interface Sizes {
   digital: Digital;
 }
 export interface Digital {
-  web: string;
   devices: Devices;
+  web: string;
 }
 export interface Devices {
-  tablet: string;
   mobile: string;
+  tablet: string;
 }
 export interface Base {
   comment: string;
   type: string;
-  palette: Palette;
   backgrounds: Backgrounds;
-}
-export interface Backgrounds {
-  'light-primary': string;
-  'dark-primary': string;
+  palette: Palette;
 }
 export interface Palette {
   primary30: string;
   primary50: string;
   primary70: string;
   primary90: string;
+}
+export interface Backgrounds {
+  blue: string;
+  pink: string;
+}
+export interface Animation {
+  comment: string;
+  basics: Basics;
+}
+export interface Basics {
+  'Duration-100': string;
+  small: number[];
 }
