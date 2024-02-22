@@ -2,19 +2,17 @@ name: Update Tokens
 
 on:
   pull_request:
-    types:
-      - opened
-    paths:
-      - "tokens/token.json"
+    types: [opened]
+    paths: "tokens/token.json"
+    branches: "zeroheight-tokens-*"
 
 jobs:
-  run if: startsWith(github.head_ref, 'zeroheight-tokens-')
   update-tokens:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "The head of this PR starts with 'releases/'"
       - name: Git Version Beta
         id: version
+        if: startsWith(github.head.ref, 'zeroheight-tokens-')
 
       - name: Checkout repository
         uses: actions/checkout@v3
