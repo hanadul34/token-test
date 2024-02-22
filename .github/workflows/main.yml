@@ -12,6 +12,7 @@ jobs:
         steps:
           - name: Checkout repository
             uses: actions/checkout@v3
+            id: version
 
           - name: Install Node.js
             uses: actions/setup-node@v3
