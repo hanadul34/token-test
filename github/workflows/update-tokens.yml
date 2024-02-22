@@ -8,7 +8,7 @@ on:
       - "tokens/token.json"
 
 jobs:
-  run if: startsWith(github.event.pull_request, 'zeroheight-tokens-')
+  run if: startsWith(github.head.ref, 'zeroheight-tokens-')
   update-tokens:
     runs-on: ubuntu-latest
     steps:
