@@ -3,6 +3,7 @@ name: Update Tokens
 on:
   pull_request:
     types: opened
+    branches: master
 
 jobs:
    run_if:
