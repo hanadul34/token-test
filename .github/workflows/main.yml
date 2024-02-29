@@ -1,29 +1,38 @@
 name: Update Tokens
 
-on:
-  pull_request:
-    types: opened
-    # branches: develop (develop 브랜치에 merge pr일때만 실행)
+on: workflow_dispatch
 
 jobs:
-   run_if:
-    if:  startsWith(github.head_ref, 'zeroheight-tokens-')
+  fetch-token:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          ref: ${{ github.head_ref }}
-          # 현재 이벤트를 트리거한 브랜치의 이름으로 checkout
-          fetch-depth: 0
-          # checkout fetch-depth default는 1. 
-          # 1개의 commit 히스토리만 받아옴. fetch-depth를 0으로 설정 시 전체 커밋 히스토리 받아온다.
+
+      - name: Fetch Token JSON
+        run: |
+          TOKEN_URL="https://untitled-team-978fr.zeroheight.com/api/token_management/token_set/4736/export?format=style-dictionary"
+          curl -o ./tokens/token.json "$TOKEN_URL"
+
+  check-token-changes:
+    runs-on: ubuntu-latest
+    needs: fetch-token
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Check for token changes
+        run: |
+          git diff --exit-code --quiet || exit 1
+
+      - name: Create release branch
+        run: git checkout -b feature/update-zeroheight-tokens
 
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: "yarn"
+          cache: 'yarn'
 
       - name: Build App
         shell: bash
@@ -32,10 +41,16 @@ jobs:
       - name: Run Token Update Script
         run: yarn update-tokens
 
-      - name: Commit Changes
+      - name: Commit message
+        if: ${{ success() }}
         run: |
           git config --global user.email "hanadul34@weversecompany.com"
           git config --global user.name "hana"
           git add .
           git commit -m "Update tokens!"
           git push
+
+      - name: Create Pull Request
+        if: ${{ success() }}
+        run: |
+          gh pr create --base develop --title "Automatic PR - Update token" --body "This PR is automatically created to update the token."
