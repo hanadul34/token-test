@@ -47,8 +47,6 @@ jobs:
 
       - name: Commit message
         if: ${{ success() }}
-        env:
-          GH_TOKEN: ${{ secrets.WORK_FLOW }}
         run: |
           git config --global user.email "hanadul34@weversecompany.com"
           git config --global user.name "hana"
@@ -58,5 +56,7 @@ jobs:
 
       - name: Create Pull Request
         if: ${{ success() }}
+        env:
+          GH_TOKEN: ${{ secrets.WORK_FLOW }}
         run: |
           gh pr create --base develop --title "Automatic PR - Update token" --body "This PR is automatically created to update the token."
