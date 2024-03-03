@@ -26,19 +26,23 @@ jobs:
           git diff --exit-code --quiet || exit 1
 
       - name: Create release branch
+        if: ${{ success() }}
         run: git checkout -b feature/update-zeroheight-tokens
 
       - name: Install Node.js
+        if: ${{ success() }}
         uses: actions/setup-node@v3
         with:
           node-version: 18
           cache: 'yarn'
 
       - name: Build App
+        if: ${{ success() }}
         shell: bash
         run: yarn install
 
       - name: Run Token Update Script
+        if: ${{ success() }}
         run: yarn update-tokens
 
       - name: Commit message
