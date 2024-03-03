@@ -6,6 +6,9 @@ jobs:
   fetch-token:
     runs-on: ubuntu-latest
     steps:
+      - env:
+          GH_TOKEN: ${{ secrets.WORK_FLOW }}
+          
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -42,8 +45,6 @@ jobs:
         run: yarn update-tokens
 
       - name: Commit message
-        env:
-          GH_TOKEN: ${{ secrets.WORK_FLOW }}
         if: ${{ success() }}
         run: |
           git config --global user.email "hanadul34@weversecompany.com"
