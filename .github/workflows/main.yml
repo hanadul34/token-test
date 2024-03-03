@@ -61,3 +61,4 @@ jobs:
         run: |
           if [ -n "$(git status --porcelain)" ]; then gh pr create --base develop --title "Automatic PR - Update token" --body "This PR is automatically created to update the token."
           else echo "No changes to commit. Skipping pull request creation."
+          fi
