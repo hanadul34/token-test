@@ -41,11 +41,9 @@ jobs:
       - name: Run Token Update Script
         run: yarn update-tokens
 
-      - uses: actions/labeler@v2
-        with:
-          repo-token: ${{ secrets.WORK_FLOW }}
-
       - name: Commit message
+        env:
+          GH_TOKEN: ${{ secrets.WORK_FLOW }}
         if: ${{ success() }}
         run: |
           git config --global user.email "hanadul34@weversecompany.com"
