@@ -28,7 +28,7 @@ jobs:
       - name: Create release branch
         if: success()
         run: |
-          BRANCH_NAME="feature/update-zeroheight-tokens-$(date +'%Y%m%d%H%M%S')"
+          BRANCH_NAME="feature/update-zeroheight-tokens-$(date +'%Y%m%d%H%M')"
           git checkout -b $BRANCH_NAME
 
       - name: Install Node.js
@@ -62,7 +62,7 @@ jobs:
           GH_TOKEN: ${{ secrets.WORK_FLOW }}
         run: |
           if [ -n "$(git status --porcelain)" ]; then
-            PR_TITLE="Automatic PR - Update token - $(date +'%Y%m%d%H%M%S')"
+            PR_TITLE="Automatic PR - Update token - $(date +'%Y%m%d%H%M')"
             gh pr create --base develop --title "$PR_TITLE" --body "This PR is automatically created to update the token."
           else
             echo "No changes to commit. Skipping pull request creation."
