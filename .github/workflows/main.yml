@@ -3,20 +3,23 @@ name: Update Tokens
 on: workflow_dispatch
 
 jobs:
+
+  fetch-token:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v3
+
+        - name: Fetch Token JSON
+          run: |
+            TOKEN_URL="https://untitled-team-978fr.zeroheight.com/api/token_management/token_set/4736/export?format=style-dictionary"
+            curl -o ./tokens/token.json "$TOKEN_URL"
+            cat ./tokens/token.json
+
   update-tokens:
     runs-on: ubuntu-latest
+    needs: fetch-token
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          ref: develop
-
-      - name: Fetch Token JSON
-        run: |
-          TOKEN_URL="https://untitled-team-978fr.zeroheight.com/api/token_management/token_set/4736/export?format=style-dictionary"
-          curl -o ./tokens/token.json "$TOKEN_URL"
-          cat ./tokens/token.json
-
       - name: Create release branch and update tokens
         if: success()
         env:
