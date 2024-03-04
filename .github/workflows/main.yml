@@ -26,39 +26,43 @@ jobs:
           git diff --exit-code --quiet || exit 1
 
       - name: Create release branch
-        if: ${{ success() }}
-        run: git checkout -b feature/update-zeroheight-tokens
+        if: success()
+        run: |
+          BRANCH_NAME="feature/update-zeroheight-tokens-$(date +'%Y%m%d%H%M%S')"
+          git checkout -b $BRANCH_NAME
 
       - name: Install Node.js
-        if: ${{ success() }}
+        if: success()
         uses: actions/setup-node@v3
         with:
           node-version: 18
           cache: 'yarn'
 
       - name: Build App
-        if: ${{ success() }}
+        if: success()
         shell: bash
         run: yarn install
 
       - name: Run Token Update Script
-        if: ${{ success() }}
+        if: success()
         run: yarn update-tokens
 
       - name: Commit message
-        if: ${{ success() }}
+        if: success()
         run: |
-          git config --global user.email "hanadul34@weversecompany.com"
-          git config --global user.name "hana"
+
           git add .
           git commit -m "Update tokens!"
-          git push --set-upstream origin feature/update-zeroheight-tokens -f
+          git push --set-upstream origin $BRANCH_NAME -f
 
       - name: Create Pull Request
-        if: ${{ success() }}
+        if: success()
         env:
           GH_TOKEN: ${{ secrets.WORK_FLOW }}
         run: |
-          if [ -n "$(git status --porcelain)" ]; then gh pr create --base develop --title "Automatic PR - Update token" --body "This PR is automatically created to update the token."
-          else echo "No changes to commit. Skipping pull request creation."
+          if [ -n "$(git status --porcelain)" ]; then
+            PR_TITLE="Automatic PR - Update token - $(date +'%Y%m%d%H%M%S')"
+            gh pr create --base develop --title "$PR_TITLE" --body "This PR is automatically created to update the token."
+          else
+            echo "No changes to commit. Skipping pull request creation."
           fi
