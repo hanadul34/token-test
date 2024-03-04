@@ -16,15 +16,6 @@ jobs:
           TOKEN_URL="https://untitled-team-978fr.zeroheight.com/api/token_management/token_set/4736/export?format=style-dictionary"
           curl -o ./tokens/token.json "$TOKEN_URL"
 
-      - name: Check for token changes
-        run: |
-          if git diff --exit-code --quiet; then
-          echo "No changes detected"
-          else
-          echo "Changes detected"
-          exit 1
-          fi
-
       - name: Create release branch and update tokens
         if: success()
         run: |
