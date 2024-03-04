@@ -1,10 +1,6 @@
 /**
  * Do not edit directly
-<<<<<<< HEAD
- * Generated on Tue, 27 Feb 2024 05:18:59 GMT
-=======
- * Generated on Mon, 04 Mar 2024 01:27:12 GMT
->>>>>>> feature/update-zeroheight-tokens-202403040126
+ * Generated on Mon, 04 Mar 2024 01:54:00 GMT
  */
 
 module.exports = {
