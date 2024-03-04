@@ -20,27 +20,22 @@ jobs:
       - name: Create release branch and update tokens
         if: success()
         run: |
-          BRANCH_NAME="feature/update-zeroheight-tokens-$(date +'%Y%m%d%H%M')"
-          git checkout -b $BRANCH_NAME
+          if git diff --exit-code --quiet; then
+            echo "No changes detected"
+          else
+            BRANCH_NAME="feature/update-zeroheight-tokens-$(date +'%Y%m%d%H%M')"
+            git checkout -b $BRANCH_NAME
 
-          yarn install
-          yarn update-tokens
+            yarn install
+            yarn update-tokens
 
-          git config --global user.email "hanadul34@wevwersecompany.com"
-          git config --global user.name "hana"
-          git add .
-          git commit -m "Update tokens!"
-          git push --set-upstream origin $BRANCH_NAME -f
+            git config --global user.email "hanadul34@wevwersecompany.com"
+            git config --global user.name "hana"
+            git add .
+            git commit -m "Update tokens!"
+            git push --set-upstream origin $BRANCH_NAME -f
 
-      - name: Create Pull Request
-        if: success()
-        env:
-          GH_TOKEN: ${{ secrets.WORK_FLOW }}
-        run: |
-          if [ -n "$(git status --porcelain)" ]; then
             PR_TITLE="Automatic PR - Update token - $(date +'%Y%m%d%H%M')"
             echo "PR title: $PR_TITLE"
             gh pr create --base develop --head $BRANCH_NAME --title "$PR_TITLE" --body "This PR is automatically created to update the token."
-          else
-            echo "No changes to commit. Skipping pull request creation."
           fi
