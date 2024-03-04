@@ -25,17 +25,12 @@ jobs:
         run: |
           git diff --exit-code --quiet || exit 1
 
-      - name: Install GitHub CLI
-        uses: actions/setup-gh@v1
-        with:
-          cli-version: 'latest'
-
       - name: Create release branch
         if: success()
         run: |
           BRANCH_NAME="feature/update-zeroheight-tokens-$(date +'%Y%m%d%H%M')"
           git checkout -b $BRANCH_NAME
-          git push --set-upstream origin $BRANCH_NAME
+          git push -u origin $BRANCH_NAME
 
       - name: Install Node.js
         if: success()
