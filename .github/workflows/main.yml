@@ -1,68 +1,36 @@
 name: Update Tokens
-
 on: workflow_dispatch
-
 jobs:
-  fetch-token:
+  update-tokens:
     runs-on: ubuntu-latest
-    outputs:
-     token-fetched: ${{ steps.checkout.outputs.token-fetched }}
     steps:
-    - name: Checkout repository
-      id: checkout
-      uses: actions/checkout@v3
-
-    - name: Fetch Token JSON
-      run: |
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: develop
+      - name: Fetch Token JSON
+        run: |
           TOKEN_URL="https://untitled-team-978fr.zeroheight.com/api/token_management/token_set/4736/export?format=style-dictionary"
           curl -o ./tokens/token.json "$TOKEN_URL"
           cat ./tokens/token.json
-          echo "::set-output name=token-fetched::true"
-
-  check-token-changes:
-    runs-on: ubuntu-latest
-    needs: fetch-token
-    if: needs.fetch-token.outputs.token-fetched == 'true'
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Check for token changes
+      - name: Create release branch and update tokens
+        if: success()
+        env:
+            GH_TOKEN: ${{ secrets.WORK_FLOW }}
         run: |
           if git diff --exit-code --quiet; then
             echo "No changes detected"
-            exit 0
           else
-            echo "Changes detected"
-            exit 1
+            BRANCH_NAME="feature/update-zeroheight-tokens-$(date +'%Y%m%d%H%M')"
+            git checkout -b $BRANCH_NAME
+            yarn install
+            yarn update-tokens
+            git config --global user.email "hanadul34@wevwersecompany.com"
+            git config --global user.name "hana"
+            git add .
+            git commit -m "Update tokens!"
+            git push --set-upstream origin $BRANCH_NAME -f
+            PR_TITLE="Automatic PR - Update token - $(date +'%Y%m%d%H%M')"
+            echo "PR title: $PR_TITLE"
+            gh pr create --base develop --head $BRANCH_NAME --title "$PR_TITLE" --body "This PR is automatically created to update the token."
           fi
-
-  update-tokens:
-    runs-on: ubuntu-latest
-    needs: check-token-changes
-    if: needs.check-token-changes.outputs.check-success == 'true'
-    env:
-      GH_TOKEN: ${{ secrets.WORK_FLOW }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          ref: develop
-
-      - name: Create release branch and update tokens
-        run: |
-          BRANCH_NAME="feature/update-zeroheight-tokens-$(date +'%Y%m%d%H%M')"
-          git checkout -b $BRANCH_NAME
-
-          yarn install
-          yarn update-tokens
-
-          git config --global user.email "hanadul34@wevwersecompany.com"
-          git config --global user.name "hana"
-          git add .
-          git commit -m "Update tokens!"
-          git push --set-upstream origin $BRANCH_NAME -f
-
-          PR_TITLE="Automatic PR - Update token - $(date +'%Y%m%d%H%M')"
-          echo "PR title: $PR_TITLE"
-          gh pr create --base develop --head $BRANCH_NAME --title "$PR_TITLE" --body "This PR is automatically created to update the token."
