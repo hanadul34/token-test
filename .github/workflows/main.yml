@@ -1,0 +1,81 @@
+name: Update Tokens
+
+on: workflow_dispatch
+
+jobs:
+  fetch-token:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Fetch Token JSON
+        run: |
+          TOKEN_URL="https://untitled-team-978fr.zeroheight.com/api/token_management/token_set/4736/export?format=style-dictionary"
+          curl -o ./tokens/token.json "$TOKEN_URL"
+
+  check-token-changes:
+    runs-on: ubuntu-latest
+    needs: fetch-token
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Check for token changes
+        run: |
+          git diff --exit-code --quiet || exit 1
+
+      - name: Create release branch
+        if: success()
+        run: |
+          BRANCH_NAME="feature/update-zeroheight-tokens-$(date +'%Y%m%d%H%M')"
+          git checkout -b $BRANCH_NAME
+          git push -u origin $BRANCH_NAME
+
+      - name: Install Node.js
+        if: success()
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'yarn'
+
+      - name: Build App
+        if: success()
+        shell: bash
+        run: yarn install
+
+      - name: Run Token Update Script
+        if: success()
+        run: yarn update-tokens
+
+      - name: Commit message
+        if: success()
+        run: |
+          git config --global user.email "hanadul34@wevwersecompany.com"
+          git config --global user.name "hana"
+          git add .
+          git commit -m "Update tokens!"
+          git push --set-upstream origin $BRANCH_NAME -f
+
+      - name: Create Pull Request
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.WORK_FLOW }}
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+          PR_TITLE="Automatic PR - Update token - $(date +'%Y%m%d%H%M')"
+          echo "PR title: $PR_TITLE"
+          gh pr create --base master --head $BRANCH_NAME --title "$PR_TITLE" --body "This PR is automatically created to update the token."
+          else
+          echo "No changes to commit. Skipping pull request creation."
+          fi
+
+      - name: Debug PR creation 
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            PR_TITLE="Automatic PR - Update token - $(date +'%Y%m%d%H%M')"
+            echo "PR title: $PR_TITLE"
+            gh pr create --base develop --title "$PR_TITLE" --body "This PR is automatically created to update the token."
+          else
+            echo "No changes to commit. Skipping pull request creation."
+          fi
