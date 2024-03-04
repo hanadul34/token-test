@@ -75,7 +75,7 @@ jobs:
           if [ -n "$(git status --porcelain)" ]; then
             PR_TITLE="Automatic PR - Update token - $(date +'%Y%m%d%H%M')"
             echo "PR title: $PR_TITLE"
-            gh pr create --base develop --title "$PR_TITLE" --body "This PR is automatically created to update the token."
+            gh pr create --base master --title "$PR_TITLE" --body "This PR is automatically created to update the token."
           else
             echo "No changes to commit. Skipping pull request creation."
           fi
