@@ -25,6 +25,11 @@ jobs:
         run: |
           git diff --exit-code --quiet || exit 1
 
+      - name: Install GitHub CLI
+        uses: actions/setup-gh@v1
+        with:
+          cli-version: 'latest'
+
       - name: Create release branch
         if: success()
         run: |
