@@ -17,10 +17,10 @@ jobs:
       - name: Check for token changes
         run: |
           if git diff --exit-code --quiet; then
-            echo "No changes detected"
+          echo "No changes detected"
           else
-            echo "Changes detected"
-            exit 1
+          echo "Changes detected"
+          exit 1
           fi
 
       - name: Create release branch and update tokens
