@@ -50,7 +50,8 @@ jobs:
       - name: Commit message
         if: success()
         run: |
-
+          git config --global user.email "hanadul34@wevwersecompany.com"
+          git config --global user.name "hana"
           git add .
           git commit -m "Update tokens!"
           git push --set-upstream origin $BRANCH_NAME -f
