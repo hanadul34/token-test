@@ -30,6 +30,7 @@ jobs:
         run: |
           BRANCH_NAME="feature/update-zeroheight-tokens-$(date +'%Y%m%d%H%M')"
           git checkout -b $BRANCH_NAME
+          git push --set-upstream origin $BRANCH_NAME
 
       - name: Install Node.js
         if: success()
