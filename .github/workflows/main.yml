@@ -19,6 +19,8 @@ jobs:
 
       - name: Create release branch and update tokens
         if: success()
+        env:
+            GH_TOKEN: ${{ secrets.WORK_FLOW }}
         run: |
           if git diff --exit-code --quiet; then
             echo "No changes detected"
