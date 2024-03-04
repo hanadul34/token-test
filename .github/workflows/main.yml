@@ -15,6 +15,7 @@ jobs:
         run: |
           TOKEN_URL="https://untitled-team-978fr.zeroheight.com/api/token_management/token_set/4736/export?format=style-dictionary"
           curl -o ./tokens/token.json "$TOKEN_URL"
+          cat ./tokens/token.json
 
       - name: Create release branch and update tokens
         if: success()
