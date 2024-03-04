@@ -43,11 +43,34 @@ module.exports = {
     {
       pattern: /\.json$|\.tokens\.json$|\.tokens$/,
       parse: ({ contents }) => {
-        // replace $value with value so that style dictionary recognizes it
         const preparedContent = (contents || "{}")
           .replace(/"\$?value"\s*:/g, '"value":')
           .replace(/"\$?description"\s*:/g, '"comment":')
           .replace(/"\$?type"\s*:/g, '"type":');
+
+        const camelCaseKey = (str) => {
+          return str.replace(/[-\s]+(.)?/g, (_, c) =>
+            c ? c.toUpperCase() : ""
+          );
+        };
+
+        const camelCaseKeysRecursive = (obj) => {
+          if (obj instanceof Array) {
+            return obj.map((v) => camelCaseKeysRecursive(v));
+          } else if (obj instanceof Object) {
+            return Object.keys(obj).reduce((acc, key) => {
+              const camelCaseKeyStr = camelCaseKey(key);
+              const value = obj[key];
+              acc[camelCaseKeyStr] =
+                value instanceof Object ? camelCaseKeysRecursive(value) : value;
+              return acc;
+            }, {});
+          }
+          return obj;
+        };
+
+        const camelCasedObject = camelCaseKeysRecursive(JSON.parse(contents));
+        console.log(JSON.stringify(camelCasedObject));
         return JSON.parse(preparedContent);
       },
     },
