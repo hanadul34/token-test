@@ -3,7 +3,7 @@ name: Update Tokens
 on: workflow_dispatch
 
 jobs:
-  fetch-token:
+  update-tokens:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -14,48 +14,27 @@ jobs:
           TOKEN_URL="https://untitled-team-978fr.zeroheight.com/api/token_management/token_set/4736/export?format=style-dictionary"
           curl -o ./tokens/token.json "$TOKEN_URL"
 
-  check-token-changes:
-    runs-on: ubuntu-latest
-    needs: fetch-token
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
       - name: Check for token changes
         run: |
-           if git diff --exit-code --quiet; then
-           echo "No changes detected"
-           else
-           echo "Changes detected"
-           exit 1
-           fi
+          if git diff --exit-code --quiet; then
+            echo "No changes detected"
+          else
+            echo "Changes detected"
+            exit 1
+          fi
 
-      - name: Create release branch
+      - name: Create release branch and update tokens
         if: success()
         run: |
           BRANCH_NAME="feature/update-zeroheight-tokens-$(date +'%Y%m%d%H%M')"
           git checkout -b $BRANCH_NAME
           git push -u origin $BRANCH_NAME
 
-      - name: Install Node.js
-        if: success()
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: 'yarn'
+          # Install Node.js and build app
+          yarn install
+          yarn update-tokens
 
-      - name: Build App
-        if: success()
-        shell: bash
-        run: yarn install
-
-      - name: Run Token Update Script
-        if: success()
-        run: yarn update-tokens
-
-      - name: Commit message
-        if: success()
-        run: |
+          # Commit changes
           git config --global user.email "hanadul34@wevwersecompany.com"
           git config --global user.name "hana"
           git add .
@@ -68,22 +47,11 @@ jobs:
           GH_TOKEN: ${{ secrets.WORK_FLOW }}
         run: |
           if [ -n "$(git status --porcelain)" ]; then
-          PR_TITLE="Automatic PR - Update token - $(date +'%Y%m%d%H%M')"
-          echo "PR title: $PR_TITLE"
-          gh pr create --base master --head $BRANCH_NAME --title "$PR_TITLE" --body "This PR is automatically created to update the token."
+            PR_TITLE="Automatic PR - Update token - $(date +'%Y%m%d%H%M')"
+            echo "PR title: $PR_TITLE"
+            gh pr create --base develop --head $BRANCH_NAME --title "$PR_TITLE" --body "This PR is automatically created to update the token."
           else
-          echo "No changes to commit. Skipping pull request creation."
-          fi
-
-
-      - name: Check for changes
-        run: |
-          if [[ -n "$(git status --porcelain)" ]]; then
-          PR_TITLE="Automatic PR - Update token - $(date +'%Y%m%d%H%M')"
-          echo "PR title: $PR_TITLE"
-          gh pr create --base develop --title "$PR_TITLE" --body "This PR is automatically created to update the token."
-          else
-          echo "No changes to commit. Skipping pull request creation."
+            echo "No changes to commit. Skipping pull request creation."
           fi
 
       - name: Debugging
@@ -92,9 +60,9 @@ jobs:
           git status
           echo "Checking for changes..."
           if [ -n "$(git status --porcelain)" ]; then
-          PR_TITLE="Automatic PR - Update token - $(date +'%Y%m%d%H%M')"
-          echo "PR title: $PR_TITLE"
-          gh pr create --base develop --title "$PR_TITLE" --body "This PR is automatically created to update the token."
+            PR_TITLE="Automatic PR - Update token - $(date +'%Y%m%d%H%M')"
+            echo "PR title: $PR_TITLE"
+            gh pr create --base develop --title "$PR_TITLE" --body "This PR is automatically created to update the token."
           else
-          echo "No changes to commit. Skipping pull request creation."
+            echo "No changes to commit. Skipping pull request creation."
           fi
